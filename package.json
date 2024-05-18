@@ -1,0 +1,9 @@
+t i{
+  "name": "maui",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:phamchautu/maui.git",
+  "author": "tupc",
+  "license": "MIT",
+  "private": true
+}
