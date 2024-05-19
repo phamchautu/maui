@@ -1,5 +1,4 @@
 import React, { FC, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { StyleSheet, TextInput, TextInputProps } from 'react-native';
 import Colors from '@core/utils/Colors';
 import { APP_THEME } from '@core/utils/constants';
@@ -7,6 +6,7 @@ import { TextSize } from '@core/utils/enum'
 import Grid from '@maui/Grid';
 import Text from '@maui/Text';
 import ViIcon from '@maui//ViIcon';
+import { useTranslation } from 'react-i18next';
 export interface InputProps extends TextInputProps {
   iconLeftName?: string;
   iconRightName?: string;
@@ -69,14 +69,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 14,
     paddingRight: 16,
-    color: Colors.variant.default.text[APP_THEME],
+    // color: Colors.variant.default.text[APP_THEME],
   },
   inputWrap: {
     height: 52,
     borderRadius: 16,
     borderWidth: 1,
     borderColor: Colors.variant.default.background[APP_THEME],
-    backgroundColor: Colors.variant.default.border[APP_THEME],
+    backgroundColor: '#f9f9f9',
   },
   icon: {
     alignSelf: 'center',
