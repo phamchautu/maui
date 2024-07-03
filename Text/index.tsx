@@ -1,21 +1,28 @@
 import React, { forwardRef, useMemo } from "react";
-import { Text as RNText, TextProps as RNTextProps } from 'react-native';
+import { Text as RNText, TextProps as RNTextProps, StyleSheet } from 'react-native';
+import ucfirst from "@utils/ucfirst";
+import capitalize from '@utils/capitalize'
+import { ThemeContext, useTheme, useThemedStyles } from "src/providers/Theme";
+import { Theme } from "@constants/colors";
+import { Font } from "@constants/typography";
 import { useTranslation } from 'react-i18next';
-import ucfirst from "@core/utils/ucfirst";
-import capitalize from '@core/utils/capitalize'
+
 
 export type TextRef = RNText;
 
 export interface TextProps extends RNTextProps {
     title: string | number | null;
     textTransform?: 'uppercase' | 'lowercase' | 'ucfirst' | 'capitalize';
+
 }
 
 const Text = forwardRef<TextRef, TextProps>(
     function Text(props, ref) {
 
         const { title, textTransform, ...rest } = props;
-        const { t } = useTranslation();
+        const { t, i18n } = useTranslation();
+
+        const style = useThemedStyles(styles)
 
         const text = useMemo(() => {
             let v = t(`${title}`);
@@ -36,18 +43,30 @@ const Text = forwardRef<TextRef, TextProps>(
             }
 
             return v;
-        }, [title]);
+        }, [i18n.language]);
 
         return (
             <RNText
                 {...rest}
                 ref={ref}
+                style={[style.text, StyleSheet.flatten(rest.style)]}
             >
                 {text}
             </RNText>
         );
     }
 );
+
+const styles = (theme: Theme) => {
+    return StyleSheet.create({
+        text: {
+            fontFamily: Font.NunitoRegular,
+            fontSize: 14,
+            letterSpacing: 0.2,
+            color: theme.onSurface
+        }
+    })
+}
 
 Text.displayName = 'Text';
 export default Text;

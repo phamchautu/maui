@@ -1,12 +1,12 @@
 import React, { FC, useMemo } from 'react';
 import { StyleSheet, TextInput, TextInputProps } from 'react-native';
-import Colors from '@core/utils/Colors';
-import { APP_THEME } from '@core/utils/constants';
-import { TextSize } from '@core/utils/enum'
+
 import Grid from '@maui/Grid';
 import Text from '@maui/Text';
 import ViIcon from '@maui//ViIcon';
 import { useTranslation } from 'react-i18next';
+import { useTheme, useThemedStyles } from '@providers/Theme';
+import { Theme } from '@constants/colors';
 export interface InputProps extends TextInputProps {
   iconLeftName?: string;
   iconRightName?: string;
@@ -16,6 +16,8 @@ export interface InputProps extends TextInputProps {
   iconColor?: string;
 }
 const Input: FC<InputProps> = (props) => {
+
+  const { theme, isDarkTheme } = useTheme()
   const {
     error,
     iconLeftName,
@@ -24,58 +26,61 @@ const Input: FC<InputProps> = (props) => {
     style,
     placeholder = '',
     textRight = '',
-    iconColor = Colors.variant.default.text[APP_THEME],
+    iconColor = theme.onBackground,
     ...rest
   } = props;
+
   const { t } = useTranslation();
 
   const currentError = useMemo(() => error, [error]);
 
+  const ownStyle = useThemedStyles(styles)
+
   return (
     <>
       <Grid.Row
-        style={[styles.inputWrap, StyleSheet.flatten(style), !!error && styles.errorBorder]}
+        style={[ownStyle.inputWrap, StyleSheet.flatten(style), !!error && ownStyle.errorBorder]}
       >
         {!!iconLeftName && (
-          <Grid.Flex style={styles.icon}>
+          <Grid.Flex style={ownStyle.icon}>
             <ViIcon name={iconLeftName} size={16} color={iconColor} />
           </Grid.Flex>
         )}
-        <TextInput style={styles.input} placeholder={`${t(placeholder)}`} {...rest} />
+        <TextInput style={ownStyle.input} placeholder={`${t(placeholder)}`} {...rest} />
         {!!iconRightName && (
-          <Grid.Flex style={styles.rightIcon} onPress={onPressRightIcon}>
+          <Grid.Flex style={ownStyle.rightIcon} onPress={onPressRightIcon}>
             <ViIcon name={iconRightName} size={16} color={iconColor} />
           </Grid.Flex>
         )}
         {!!textRight && (
-          <Grid.Flex style={styles.textRight}>
+          <Grid.Flex style={ownStyle.textRight}>
             <Text title={textRight} style={{ paddingLeft: 12 }} />
           </Grid.Flex>
         )}
       </Grid.Row>
-      <Grid.Flex style={styles.errorWrap}>
-        {!!currentError && <Text title={currentError} style={styles.errorText} />}
+      <Grid.Flex style={ownStyle.errorWrap}>
+        {!!currentError && <Text title={currentError} style={ownStyle.errorText} />}
       </Grid.Flex>
     </>
   );
 };
-const styles = StyleSheet.create({
+const styles = (theme: Theme) => StyleSheet.create({
   container: {
-    marginVertical: 4,
+    marginVertical: 4
   },
   input: {
     flex: 1,
-    height: 52,
+    height: 48,
     alignSelf: 'center',
     fontSize: 14,
     paddingRight: 16,
-    // color: Colors.variant.default.text[APP_THEME],
+    color: theme.onBackground,
   },
   inputWrap: {
-    height: 52,
-    borderRadius: 16,
+    height: 48,
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: Colors.variant.default.background[APP_THEME],
+    borderColor: '#f9f9f9',
     backgroundColor: '#f9f9f9',
   },
   icon: {
@@ -92,18 +97,18 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   errorText: {
-    color: Colors.active.text,
+    color: theme.error,
     alignSelf: 'center',
   },
   errorBorder: {
     borderWidth: 1,
-    borderColor: Colors.active.text,
+    borderColor: theme.error,
   },
   textRight: {
     alignSelf: 'center',
     paddingRight: 16,
     borderLeftWidth: 1,
-    fontSize: TextSize.lg,
+    fontSize: 16,
   },
 });
 Input.displayName = 'Input';

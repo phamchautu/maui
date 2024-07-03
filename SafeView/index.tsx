@@ -1,6 +1,7 @@
+import { useTheme } from '@providers/Theme';
 import React, { forwardRef, PropsWithChildren } from 'react';
 import { SafeAreaView, ScrollView, ScrollViewProps, StatusBar, StatusBarProps } from 'react-native';
-import Colors from '@core/utils/Colors';
+// import Colors from '@core/utils/Colors';
 
 export interface SafeViewProps {
   statusBar?: StatusBarProps;
@@ -13,10 +14,12 @@ export const SafeView = forwardRef<ScrollView, PropsWithChildren<SafeViewProps>>
   ref
 ) {
   const { children, statusBar = {}, scroll = {}, safe = true } = props;
+  const { isDarkTheme, theme } = useTheme()
 
   const _statusBar: StatusBarProps = {
-    backgroundColor: Colors.screen.bgcolor,
-    barStyle: 'dark-content',
+    backgroundColor: theme.onPrimary,
+    barStyle: isDarkTheme ? 'light-content' : 'dark-content',
+
     ...statusBar,
   };
 

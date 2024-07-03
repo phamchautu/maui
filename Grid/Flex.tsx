@@ -3,7 +3,7 @@ import { Pressable, PressableProps, PressableStateCallbackType, StyleSheet, View
 
 import { AlignItems, Direction, JustifyContent } from "./type";
 import { ALIGNS, DIRECTIONS, JUSTIFY } from "./utils";
-import flatternPressableStyle from "@core/utils/flatternPressableStyle";
+import flatternPressableStyle from "@utils/flatternPressableStyle";
 
 export interface FlexProps extends PressableProps {
   align?: AlignItems;

@@ -1,8 +1,9 @@
-import Colors from '@core/utils/Colors';
-import { APP_THEME } from '@core/utils/constants';
+import { Theme } from '@constants/colors';
+import { Font } from '@constants/typography';
 import Grid from '@maui/Grid';
 import Text from '@maui/Text';
 import ViIcon from '@maui/ViIcon';
+import { useTheme, useThemedStyles } from '@providers/Theme';
 import React from 'react';
 import { StyleSheet, TextStyle, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
@@ -17,29 +18,31 @@ export interface ButtonProps extends TouchableOpacityProps {
 
 const Button: React.FC<ButtonProps> = (props) => {
   const { title, style, titleStyle, icon, iconSize, iconColor, ...rest } = props;
+  const ownStyle = useThemedStyles(styles)
 
   return (
-    <TouchableOpacity style={[styles.button, StyleSheet.flatten(style)]} {...rest}>
+    <TouchableOpacity style={[ownStyle.button, StyleSheet.flatten(style)]} {...rest} activeOpacity={0.5}>
       <Grid.Row align="center" justify="center">
         {!!icon && (
           <ViIcon name={icon} size={iconSize} color={iconColor} style={{ marginRight: 15 }} />
         )}
-        <Text style={[styles.buttonText, StyleSheet.flatten(titleStyle)]} title={title} />
+        <Text style={[ownStyle.buttonText, StyleSheet.flatten(titleStyle)]} title={title} />
       </Grid.Row>
     </TouchableOpacity>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = (theme: Theme) => StyleSheet.create({
   button: {
-    padding: 16,
+    padding: 8,
     borderRadius: 8,
-    backgroundColor: Colors.variant.info.text[APP_THEME],
+    backgroundColor: theme.onPrimary,
   },
   buttonText: {
     textAlign: 'center',
-    fontWeight: '700',
-    color: Colors.screen.bgcolor,
+    color: '#E0E2E8',
+    fontFamily: Font.NunitoRegular,
+    fontSize: 16
   },
 });
 

@@ -15,10 +15,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Zocial from 'react-native-vector-icons/Zocial';
-import { IconSize } from '@core/utils/enum'
 
 export interface ViIconProps extends IconProps {
-    size?: IconSize
+    size?: number
 }
 
 const IconWrapper: Record<string, ComponentType<IconProps>> = {
@@ -40,7 +39,7 @@ const IconWrapper: Record<string, ComponentType<IconProps>> = {
 };
 
 const ViIcon: FC<ViIconProps> = (props) => {
-    const { name, size = IconSize.md, ...rest } = props;
+    const { name, size = 16, ...rest } = props;
     const [prefix, ...names] = (name || '').split('-');
 
     const Icon = IconWrapper[prefix || 'ad'];

@@ -1,4 +1,6 @@
+import { Theme } from '@constants/colors';
 import SafeView, { SafeViewProps } from '@maui/SafeView';
+import { useThemedStyles } from '@providers/Theme';
 import React, { forwardRef, PropsWithChildren } from 'react';
 import { ScrollView, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 
@@ -9,6 +11,7 @@ export interface ScreenBodyProps extends SafeViewProps {
 const ScreenBody = forwardRef<ScrollView, PropsWithChildren<ScreenBodyProps>>(
   function ScreenBody(props, ref) {
     const { children, statusBar, scroll, style, safe } = props;
+    const ownStyle = useThemedStyles(styles)
 
     return (
       <SafeView
@@ -17,7 +20,7 @@ const ScreenBody = forwardRef<ScrollView, PropsWithChildren<ScreenBodyProps>>(
         safe={safe}
         scroll={{
           ...scroll,
-          style: [styles.body, StyleSheet.flatten(scroll?.style), StyleSheet.flatten(style)],
+          style: [ownStyle.body, StyleSheet.flatten(scroll?.style), StyleSheet.flatten(style)],
         }}
       >
         {children}
@@ -26,12 +29,15 @@ const ScreenBody = forwardRef<ScrollView, PropsWithChildren<ScreenBodyProps>>(
   }
 );
 
-const styles = StyleSheet.create({
-  body: {
-    height: '100%',
-    width: '100%',
-  },
-});
+const styles = (theme: Theme) => {
+  return StyleSheet.create({
+    body: {
+      height: '100%',
+      width: '100%',
+      backgroundColor: theme.background
+    },
+  });
+}
 
 ScreenBody.displayName = 'Screen.Body';
 export default ScreenBody;
