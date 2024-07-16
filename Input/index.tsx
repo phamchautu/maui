@@ -74,14 +74,14 @@ const styles = (theme: Theme) => StyleSheet.create({
     alignSelf: 'center',
     fontSize: 14,
     paddingRight: 16,
-    color: theme.onBackground,
+    color: theme.onSurface,
   },
   inputWrap: {
     height: 48,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#f9f9f9',
-    backgroundColor: '#f9f9f9',
+    borderColor: theme.surface,
+    backgroundColor: theme.onSurface,
   },
   icon: {
     alignSelf: 'center',

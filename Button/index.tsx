@@ -36,11 +36,11 @@ const styles = (theme: Theme) => StyleSheet.create({
   button: {
     padding: 8,
     borderRadius: 8,
-    backgroundColor: theme.onPrimary,
+    backgroundColor: theme.primaryContainer,
   },
   buttonText: {
     textAlign: 'center',
-    color: '#E0E2E8',
+    color: theme.onPrimaryContainer,
     fontFamily: Font.NunitoRegular,
     fontSize: 16
   },
